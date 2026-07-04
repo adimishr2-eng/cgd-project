@@ -1,0 +1,7 @@
+zone_name,area_sqkm,total_households,industrial_units,existing_penetration_pct,distance_from_network_km
+Industrial Corridor West,18,35000,280,0.12,2.5
+Chemical Cluster North,22,15000,420,0.08,8.0
+Residential Zone South,12,65000,15,0.05,3.0
+Mixed Zone East,15,42000,95,0.18,1.5
+Outer Residential North,25,28000,8,0.02,12.0
+Highway Corridor,30,12000,145,0.03,6.5

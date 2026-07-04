@@ -1,0 +1,11 @@
+parameter,value
+pe_pipeline_cost_lakh_per_km,20
+domestic_connection_cost_rs,6000
+commercial_connection_cost_rs,25000
+industrial_connection_cost_rs,200000
+avg_domestic_annual_revenue_rs,4000
+avg_commercial_annual_revenue_rs,50000
+avg_industrial_annual_revenue_rs,2000000
+operating_cost_pct_of_revenue,0.15
+discount_rate,0.10
+project_years,10

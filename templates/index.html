@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGD Analytics Dashboard — PNG Demand & Network Expansion</title>
+    <meta name="description" content="City Gas Distribution analytics dashboard for PNG demand forecasting, zone prioritization, and techno-economic analysis.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <div>
+                <h1 class="brand-title">CGD Analytics</h1>
+                <p class="brand-sub">Network Expansion</p>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-section="dashboard" id="nav-dashboard">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" data-section="charts" id="nav-charts">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                <span>Charts</span>
+            </a>
+            <a href="#" class="nav-item" data-section="data" id="nav-data">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                <span>Data Tables</span>
+            </a>
+            <a href="#" class="nav-item" data-section="inputs" id="nav-inputs">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                <span>Edit Inputs</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="run-btn" id="runModelBtn" onclick="runModel()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+                <span>Run Model</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-content">
+        <!-- Top bar -->
+        <header class="topbar">
+            <button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            </button>
+            <h2 class="page-title" id="pageTitle">Dashboard</h2>
+            <div class="topbar-right">
+                <div class="status-badge" id="statusBadge">
+                    <span class="status-dot"></span>
+                    <span>Ready</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content sections -->
+        <div class="content-area">
+
+            <!-- ===== DASHBOARD SECTION ===== -->
+            <section class="section active" id="section-dashboard">
+                <!-- KPI Cards -->
+                <div class="kpi-grid" id="kpiGrid">
+                    <div class="kpi-card" style="--accent: #6C63FF">
+                        <div class="kpi-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">Year 10 Daily Demand</span>
+                            <span class="kpi-value" id="kpi-demand">—</span>
+                            <span class="kpi-sub">SCM/day</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card" style="--accent: #00C896">
+                        <div class="kpi-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">Demand Growth</span>
+                            <span class="kpi-value" id="kpi-growth">—</span>
+                            <span class="kpi-sub">over 10 years</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card" style="--accent: #FF6B6B">
+                        <div class="kpi-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">Total CAPEX</span>
+                            <span class="kpi-value" id="kpi-capex">—</span>
+                            <span class="kpi-sub">Rs. Crores</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card" style="--accent: #FFA63E">
+                        <div class="kpi-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">Average IRR</span>
+                            <span class="kpi-value" id="kpi-irr">—</span>
+                            <span class="kpi-sub">across zones</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card" style="--accent: #36D7B7">
+                        <div class="kpi-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">Viable Zones</span>
+                            <span class="kpi-value" id="kpi-viable">—</span>
+                            <span class="kpi-sub">financially viable</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card" style="--accent: #A78BFA">
+                        <div class="kpi-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">Total NPV</span>
+                            <span class="kpi-value" id="kpi-npv">—</span>
+                            <span class="kpi-sub">Rs. Crores</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Charts Preview -->
+                <div class="dashboard-charts">
+                    <div class="card chart-preview-card">
+                        <div class="card-header">
+                            <h3>Demand Forecast</h3>
+                            <button class="btn-ghost" onclick="navigateTo('charts')">View All →</button>
+                        </div>
+                        <div class="card-body">
+                            <img id="previewChart1" class="chart-img" src="" alt="Demand Forecast Chart" loading="lazy">
+                        </div>
+                    </div>
+                    <div class="card chart-preview-card">
+                        <div class="card-header">
+                            <h3>Zone IRR Comparison</h3>
+                            <button class="btn-ghost" onclick="navigateTo('charts')">View All →</button>
+                        </div>
+                        <div class="card-body">
+                            <img id="previewChart2" class="chart-img" src="" alt="IRR Comparison Chart" loading="lazy">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Financial Summary Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Financial Summary</h3>
+                        <button class="btn-ghost" onclick="navigateTo('data')">View Details →</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-wrap" id="dashFinancialTable">
+                            <p class="placeholder-text">Loading financial summary...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== CHARTS SECTION ===== -->
+            <section class="section" id="section-charts">
+                <div class="chart-gallery" id="chartGallery">
+                    <p class="placeholder-text">Loading charts...</p>
+                </div>
+            </section>
+
+            <!-- ===== DATA TABLES SECTION ===== -->
+            <section class="section" id="section-data">
+                <div class="tabs">
+                    <button class="tab active" onclick="switchDataTab('demand', this)">Demand Forecast</button>
+                    <button class="tab" onclick="switchDataTab('zoneRank', this)">Zone Ranking</button>
+                    <button class="tab" onclick="switchDataTab('financial', this)">Financial Model</button>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-wrap" id="dataTableContainer">
+                            <p class="placeholder-text">Select a tab to view data...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== EDIT INPUTS SECTION ===== -->
+            <section class="section" id="section-inputs">
+                <div class="tabs">
+                    <button class="tab active" onclick="switchInputTab('city', this)">City Parameters</button>
+                    <button class="tab" onclick="switchInputTab('zones', this)">Zone Data</button>
+                    <button class="tab" onclick="switchInputTab('financial', this)">Financial Parameters</button>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 id="inputTableTitle">City Parameters</h3>
+                        <div class="card-actions">
+                            <button class="btn-save" id="saveInputBtn" onclick="saveCurrentInput()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-wrap" id="inputTableContainer">
+                            <p class="placeholder-text">Loading input data...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- ===== RUN MODEL MODAL ===== -->
+    <div class="modal-overlay" id="runModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Model Execution</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="run-status" id="runStatus">
+                    <div class="spinner"></div>
+                    <p>Running model... please wait</p>
+                </div>
+                <pre class="run-output" id="runOutput"></pre>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" onclick="closeModal()" id="modalCloseBtn" style="display:none;">Close & Refresh</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

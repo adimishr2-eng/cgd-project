@@ -1,0 +1,15 @@
+parameter,value
+city_name,Generic City
+total_population,2200000
+avg_household_size,4.2
+total_commercial_establishments,45000
+total_industrial_units,850
+base_residential_penetration,0.10
+base_commercial_penetration,0.05
+base_industrial_penetration,0.08
+residential_growth_rate,0.18
+commercial_growth_rate,0.10
+industrial_growth_rate,0.08
+residential_consumption_scm_per_day,1
+commercial_consumption_scm_per_day,10
+industrial_consumption_scm_per_day,500

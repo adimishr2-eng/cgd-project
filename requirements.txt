@@ -1,0 +1,14 @@
+pandas
+numpy
+numpy-financial
+matplotlib
+openpyxl
+scipy
+streamlit
+plotly
+geopandas
+folium
+streamlit-folium
+shapely
+branca
+reportlab
